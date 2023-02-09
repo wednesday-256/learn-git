@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>After School Club</title>
+  </head>
+  <body>
+    <style>
+      #lesson {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 5px solid burlywood;
+        border-radius: 20px;
+        margin: 5px 30px;
+      }
+      p {
+        font-size: 20px;
+      }
+      h1 {
+        text-align: center;
+        font-family: monospace;
+        text-transform: uppercase;
+      }
+    </style>
+    <div id="app">
+      <header><h1>{{sitename}}</h1></header>
+      <div id="lesson">
+        <figure>
+          <img :src="lesson.image" />
+        </figure>
+        <div>
+          <p><b>Subject:</b> {{lesson.subject}}</p>
+          <p><b>Location:</b> {{lesson.location}}</p>
+          <p><b>Price:</b> {{lesson.price | formatPrice }}</p>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var webstore = new Vue({
+        el: "#app",
+        data: {
+          sitename: "After School Club",
+          lesson: {
+            subject: "Math",
+            location: "Dubai Knowledge Park",
+            price: "60000",
+            image: "images/product-fullsize.png",
+          },
+        },
+        methods: {},
+        filters: {
+          formatPrice: (price) => {
+            if (!parseInt(price)) {
+              return "";
+            }
+            return (price / 100).toLocaleString("en-US", {
+              style: "currency",
+              currency: "AED",
+              minimumFractionsDigits: 2,
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

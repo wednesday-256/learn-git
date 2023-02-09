@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1 v-text="sitename"></h1>
+        <p id="cart"><b>Cart:</b> {{ cart.length}}</p>
+      </header>
+      <main>
+        <div class="product">
+          <figure>
+            <img :src="product.image" />
+          </figure>
+          <div>
+            <h2 v-text="product.title"></h2>
+            <p v-html="product.description"></p>
+
+            <p>Price: {{ product.price | formatPrice }}</p>
+            <button @click="addToCart" v-if="cart.length < 10 ">
+              Add To Cart
+            </button>
+            <button
+              id="removeBtn"
+              v-if="cart.length > 0"
+              @click="removeFromCart"
+            >
+              Remove From cart
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <style>
+      main {
+        display: flex;
+      }
+      button {
+        background-color: blue;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+      }
+      .product {
+        display: flex;
+        border: 5px solid beige;
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      #removeBtn {
+        background-color: red;
+      }
+      #cart {
+        border: 1px solid blue;
+        padding: 10px;
+        height: max-content;
+        text-transform: uppercase;
+        width: max-content;
+        border-radius: 5px;
+        margin-right: 20px;
+      }
+    </style>
+    <script type="text/javascript">
+      // vue constructor
+      var webstore = new Vue({
+        el: "#app",
+        data: {
+          sitename: "Vue.js Pet Depot",
+          cart: [],
+          product: {
+            id: 1001,
+            title: "Cat Food, 25lb bag",
+            description:
+              "A 25 pound bag of <em>irresistible</em> organic goodness for your cat.",
+            price: 2000,
+            image: "images/product-fullsize.png",
+          },
+        },
+        methods: {
+          addToCart: function () {
+            this.cart.push(this.product.id);
+          },
+          removeFromCart: function () {
+            this.cart.pop();
+          },
+        },
+        filters: {
+          formatPrice: (price) => {
+            if (!parseInt(price)) {
+              return "";
+            }
+            return (price / 100).toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+              minimumFractionsDigits: 2,
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
